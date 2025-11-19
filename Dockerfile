@@ -7,14 +7,15 @@ COPY frontend/ .
 # Ensure API URL is relative for production (or set via ENV if needed, but relative is best for same-origin)
 # We might need to adjust api.js to use relative path if serving from same origin
 RUN npm run build
-
+∏
 # Stage 2: Build Backend
 FROM golang:1.24-alpine AS backend-builder
 WORKDIR /app/backend
 COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend/ .
-RUN go build -o server cmd/server/main.go
+# Disable CGO and limit concurrency to reduce memory usage
+RUN CGO_ENABLED=0 go build -p 1 -o server cmd/server/main.go
 
 # Stage 3: Final Image
 FROM alpine:latest
