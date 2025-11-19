@@ -6,8 +6,23 @@ echo "🚀 Starting deployment..."
 echo "📥 Pulling latest code..."
 git pull
 
-# Build and start containers
-echo "🐳 Building and starting containers..."
-docker-compose up -d --build
+# Check for docker-compose or docker compose
+if command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
+elif docker compose version &> /dev/null; then
+    DOCKER_COMPOSE="docker compose"
+else
+    echo "❌ Error: docker-compose or docker compose plugin not found."
+    exit 1
+fi
 
-echo "✅ Deployment complete! App is running on port 3000."
+# Build and start containers
+echo "🐳 Building and starting containers using $DOCKER_COMPOSE..."
+$DOCKER_COMPOSE up -d --build
+
+if [ $? -eq 0 ]; then
+    echo "✅ Deployment complete! App is running on port 3000."
+else
+    echo "❌ Deployment failed."
+    exit 1
+fi
