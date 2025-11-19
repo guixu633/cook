@@ -7,7 +7,7 @@ COPY frontend/ .
 # Ensure API URL is relative for production (or set via ENV if needed, but relative is best for same-origin)
 # We might need to adjust api.js to use relative path if serving from same origin
 RUN npm run build
-∏
+
 # Stage 2: Build Backend
 FROM golang:1.24-alpine AS backend-builder
 WORKDIR /app/backend
