@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -32,9 +33,21 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	r.GET("/api/meals", handlers.GetMeals)
-	r.POST("/api/meals", handlers.CreateMeal)
-	r.DELETE("/api/meals/:id", handlers.DeleteMeal)
+	// Serve frontend static files
+	r.Use(static.Serve("/", static.LocalFile("./dist", true)))
+
+	// API routes
+	api := r.Group("/api")
+	{
+		api.GET("/meals", handlers.GetMeals)
+		api.POST("/meals", handlers.CreateMeal)
+		api.DELETE("/meals/:id", handlers.DeleteMeal)
+	}
+
+	// Handle SPA routing: redirect unknown routes to index.html
+	r.NoRoute(func(c *gin.Context) {
+		c.File("./dist/index.html")
+	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
