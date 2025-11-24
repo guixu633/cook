@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cook-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: cook
+      POSTGRES_PASSWORD: cook_password
+      POSTGRES_DB: cook_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
