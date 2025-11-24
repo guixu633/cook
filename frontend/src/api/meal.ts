@@ -1,8 +1,18 @@
 import axios from 'axios';
 import type { CreateMealRequest, Meal } from '../types/meal';
 
+// Use environment variable for base URL if available (for production build)
+// In development (Vite), '/api' is proxied to the backend.
+// In production build, if served separately, you might need to point to the full URL.
+// But if frontend is built and served, usually we want relative path or configurable.
+// For now, keeping '/api' works if Nginx reverse proxy is set up on server, 
+// or if we want to hardcode the server IP for a standalone frontend build (not recommended for CORS reasons usually, but feasible).
+
+// If you want the built frontend to talk to 43.135.156.166 directly without Nginx proxy on the same domain:
+const baseURL = import.meta.env.PROD ? 'http://43.135.156.166:8080/api' : '/api';
+
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },

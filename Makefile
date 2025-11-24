@@ -1,4 +1,4 @@
-.PHONY: all build install dev run-backend run-frontend clean db-up db-down db-restart db-logs db-shell
+.PHONY: all build install dev run-backend run-frontend clean db-up db-down db-restart db-logs db-shell build-linux
 
 # 默认目标
 all: build
@@ -69,6 +69,11 @@ build-backend:
 	@echo "Building backend..."
 	cd backend && go build -o server main.go
 
+# Cross-compile for Linux (for server deployment)
+build-linux:
+	@echo "Building backend for Linux..."
+	cd backend && GOOS=linux GOARCH=amd64 go build -o server-linux main.go
+
 build-frontend:
 	@echo "Building frontend..."
 	cd frontend && npm run build
@@ -78,6 +83,5 @@ build-frontend:
 # ==============================================================================
 
 clean:
-	rm -f backend/server
+	rm -f backend/server backend/server-linux
 	rm -rf frontend/dist
-

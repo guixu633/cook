@@ -6,6 +6,7 @@ import (
 	"server/config"
 	"server/internal/database"
 	"server/internal/handler"
+	"server/internal/middleware"
 	"server/internal/model"
 	"server/internal/pkg/oss"
 	"server/internal/repository"
@@ -43,6 +44,10 @@ func main() {
 
 	// 5. Setup Router
 	r := gin.Default()
+
+	// Apply Middleware
+	r.Use(middleware.Cors())
+
 	// Max upload size 10MB
 	r.MaxMultipartMemory = 10 << 20
 
