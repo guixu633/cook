@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
+	OSS      OSSConfig      `mapstructure:"oss"`
 }
 
 type ServerConfig struct {
@@ -22,6 +23,14 @@ type DatabaseConfig struct {
 	Password string `mapstructure:"password"`
 	DBName   string `mapstructure:"dbname"`
 	SSLMode  string `mapstructure:"sslmode"`
+}
+
+type OSSConfig struct {
+	Endpoint        string `mapstructure:"endpoint"`
+	AccessKeyID     string `mapstructure:"access_key_id"`
+	AccessKeySecret string `mapstructure:"access_key_secret"`
+	BucketName      string `mapstructure:"bucket_name"`
+	BasePath        string `mapstructure:"base_path"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -41,4 +50,3 @@ func LoadConfig() (*Config, error) {
 
 	return &config, nil
 }
-

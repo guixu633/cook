@@ -19,10 +19,10 @@ func NewMealHandler(service service.MealService) *MealHandler {
 }
 
 type CreateMealRequest struct {
-	Name        string    `json:"name" binding:"required"`
-	Description string    `json:"description"`
-	Date        time.Time `json:"date"`
-	ImageURLs   []string  `json:"image_urls"`
+	Name           string    `json:"name" binding:"required"`
+	Description    string    `json:"description"`
+	Date           time.Time `json:"date"`
+	ImageFilenames []string  `json:"image_filenames"` // Changed from image_urls
 }
 
 func (h *MealHandler) Create(c *gin.Context) {
@@ -38,9 +38,10 @@ func (h *MealHandler) Create(c *gin.Context) {
 		date = time.Now()
 	}
 
-	log.Printf("Creating meal: %s, Date: %v", req.Name, date)
+	log.Printf("Creating meal: %s, Date: %v, Files: %v", req.Name, date, req.ImageFilenames)
 
-	meal, err := h.service.CreateMeal(req.Name, req.Description, date, req.ImageURLs)
+	// Now we pass imageFilenames instead of ImageURLs
+	meal, err := h.service.CreateMeal(req.Name, req.Description, date, req.ImageFilenames)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create meal"})
 		return

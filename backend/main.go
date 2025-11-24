@@ -7,6 +7,7 @@ import (
 	"server/internal/database"
 	"server/internal/handler"
 	"server/internal/model"
+	"server/internal/pkg/oss"
 	"server/internal/repository"
 	"server/internal/service"
 
@@ -27,13 +28,23 @@ func main() {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 
-	// 3. Initialize Layers
-	mealRepo := repository.NewMealRepository(database.DB)
-	mealService := service.NewMealService(mealRepo)
-	mealHandler := handler.NewMealHandler(mealService)
+	// 3. Initialize OSS
+	ossClient, err := oss.NewClient(cfg)
+	if err != nil {
+		log.Fatalf("Failed to initialize OSS client: %v", err)
+	}
 
-	// 4. Setup Router
+	// 4. Initialize Layers
+	mealRepo := repository.NewMealRepository(database.DB)
+	// Update MealService to include ossClient
+	mealService := service.NewMealService(mealRepo, ossClient)
+	mealHandler := handler.NewMealHandler(mealService)
+	uploadHandler := handler.NewUploadHandler(ossClient)
+
+	// 5. Setup Router
 	r := gin.Default()
+	// Max upload size 10MB
+	r.MaxMultipartMemory = 10 << 20
 
 	// Health Check
 	r.GET("/ping", func(c *gin.Context) {
@@ -45,6 +56,8 @@ func main() {
 	// API Routes
 	api := r.Group("/api")
 	{
+		api.POST("/upload", uploadHandler.Upload)
+
 		meals := api.Group("/meals")
 		{
 			meals.POST("", mealHandler.Create)
@@ -53,7 +66,7 @@ func main() {
 		}
 	}
 
-	// 5. Start Server
+	// 6. Start Server
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	log.Printf("Server starting on port %d...", cfg.Server.Port)
 	if err := r.Run(addr); err != nil {

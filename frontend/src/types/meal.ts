@@ -12,5 +12,5 @@ export interface CreateMealRequest {
   name: string;
   description: string;
   date: string; // ISO string
-  image_urls: string[];
+  image_filenames: string[]; // Changed from image_urls to filenames
 }

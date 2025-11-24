@@ -22,3 +22,13 @@ export const deleteMeal = async (id: number): Promise<void> => {
   await apiClient.delete(`/meals/${id}`);
 };
 
+export const uploadImage = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await apiClient.post<{ filename: string }>('/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data.filename;
+};

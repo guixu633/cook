@@ -36,6 +36,7 @@ export const MealList: React.FC<MealListProps> = ({ meals, loading, onDelete }) 
           >
             <p style={{ 
               marginBottom: '12px', 
+              height: '40px', // Fixed height for description (approx 2 lines)
               overflow: 'hidden', 
               textOverflow: 'ellipsis', 
               display: '-webkit-box', 
@@ -44,21 +45,22 @@ export const MealList: React.FC<MealListProps> = ({ meals, loading, onDelete }) 
             }}>
               {item.description}
             </p>
-            {item.image_urls && item.image_urls.length > 0 && (
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {item.image_urls.map((url, index) => (
-                  <Image
-                    key={index}
-                    width={60}
-                    height={60}
-                    src={url}
-                    style={{ objectFit: 'cover', borderRadius: '4px' }}
-                    fallback="https://via.placeholder.com/60"
-                  />
-                ))}
+            {item.image_urls && item.image_urls.length > 0 ? (
+              <div style={{ height: '200px', overflow: 'hidden', borderRadius: '8px', marginBottom: '10px' }}>
+                <Image
+                  width="100%"
+                  height="100%"
+                  src={item.image_urls[0]}
+                  style={{ objectFit: 'cover' }}
+                  fallback="https://via.placeholder.com/300x200?text=No+Image"
+                />
+              </div>
+            ) : (
+              <div style={{ height: '200px', background: '#f0f2f5', borderRadius: '8px', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Text type="secondary">No Image</Text>
               </div>
             )}
-            <div style={{ marginTop: '10px' }}>
+            <div style={{ marginTop: 'auto' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
                     {/* Show the user-entered date, fallback to created_at if missing (for old data) */}
                     {new Date(item.date || item.created_at).toLocaleDateString()}
