@@ -10,10 +10,15 @@ type Config struct {
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
 	OSS      OSSConfig      `mapstructure:"oss"`
+	Cors     CorsConfig     `mapstructure:"cors"`
 }
 
 type ServerConfig struct {
 	Port int `mapstructure:"port"`
+}
+
+type CorsConfig struct {
+	AllowOrigins []string `mapstructure:"allow_origins"`
 }
 
 type DatabaseConfig struct {

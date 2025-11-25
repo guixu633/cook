@@ -16,3 +16,8 @@ oss:
   bucket_name: "your_bucket_name"
   base_path: "meals/"
 
+cors:
+  allow_origins:
+    - "http://localhost:5173" # Local frontend
+    - "https://cook.guixuu.com" # Production frontend
+

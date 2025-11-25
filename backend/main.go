@@ -46,7 +46,7 @@ func main() {
 	r := gin.Default()
 
 	// Apply Middleware
-	r.Use(middleware.Cors())
+	r.Use(middleware.Cors(cfg))
 
 	// Max upload size 10MB
 	r.MaxMultipartMemory = 10 << 20
