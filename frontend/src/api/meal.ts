@@ -9,7 +9,7 @@ import type { CreateMealRequest, Meal } from '../types/meal';
 // or if we want to hardcode the server IP for a standalone frontend build (not recommended for CORS reasons usually, but feasible).
 
 // If you want the built frontend to talk to api.cook.guixuu.com directly without Nginx proxy on the same domain:
-const baseURL = import.meta.env.PROD ? 'http://api.cook.guixuu.com:8080/api' : '/api';
+const baseURL = import.meta.env.PROD ? 'https://api.cook.guixuu.com:8080/api' : '/api';
 
 const apiClient = axios.create({
   baseURL: baseURL,

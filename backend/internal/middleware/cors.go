@@ -25,3 +25,4 @@ func Cors(cfg *config.Config) gin.HandlerFunc {
 
 	return cors.New(config)
 }
+
