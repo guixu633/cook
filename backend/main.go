@@ -43,10 +43,13 @@ func main() {
 	uploadHandler := handler.NewUploadHandler(ossClient)
 
 	// 5. Setup Router
-	r := gin.Default()
+	// Use gin.New() instead of Default() to use our custom Logger
+	r := gin.New()
 
 	// Apply Middleware
-	r.Use(middleware.Cors(cfg))
+	r.Use(gin.Recovery())         // Recovery middleware recovers from any panics and writes a 500 if there was one.
+	r.Use(middleware.Logger())    // Custom Logger middleware
+	r.Use(middleware.Cors(cfg))   // CORS middleware
 
 	// Max upload size 10MB
 	r.MaxMultipartMemory = 10 << 20
