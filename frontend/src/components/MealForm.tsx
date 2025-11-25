@@ -44,7 +44,7 @@ export const MealForm: React.FC<MealFormProps> = ({ onSubmit }) => {
       
       // We need to tell Antd Upload that it succeeded
       // and store the server's filename in the file object response
-      onSuccess?.({ filename }, file as XMLHttpRequest);
+      onSuccess?.({ filename });
       
       // Also update fileList item status? 
       // Antd usually handles status updates via onChange if onSuccess is called.

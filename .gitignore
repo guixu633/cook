@@ -35,6 +35,7 @@ coverage/
 
 # Project specific binaries (adjust as needed)
 backend/server
+backend/server-linux
 backend/main
 
 # Configuration

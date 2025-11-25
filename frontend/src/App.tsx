@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Typography, Divider, message } from 'antd';
 import { MealForm } from './components/MealForm';
 import { MealList } from './components/MealList';
