@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://43.135.156.166:8080', // Updated to remote server IP
+        target: 'http://api.cook.guixuu.com:8080', // Updated to remote server IP
         changeOrigin: true,
       },
     },
