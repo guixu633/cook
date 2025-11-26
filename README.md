@@ -30,7 +30,7 @@
 
 ## 部署 (Deployment)
 
-目标服务器: `api.cook.guixuu.com`
+目标服务器: `cook-api.guixuu.com`
 
 ### 1. 后端部署
 
@@ -60,7 +60,7 @@ make build-frontend
 
 ### 前端连接远程后端
 
-如果您在本地开发，但想连接远程的测试/生产后端，`vite.config.ts` 已配置代理指向 `api.cook.guixuu.com`。
+如果您在本地开发，但想连接远程的测试/生产后端，`vite.config.ts` 已配置代理指向 `cook-api.guixuu.com`。
 
-如果您构建前端 (`npm run build`) 并部署，代码中 (`src/api/meal.ts`) 已配置在生产模式下直接请求 `http://api.cook.guixuu.com:8080/api`。
+如果您构建前端 (`npm run build`) 并部署，代码中 (`src/api/meal.ts`) 已配置在生产模式下直接请求 `http://cook-api.guixuu.com/api`。
 **注意**: 这需要后端开启 CORS 允许前端域名访问，或者使用 Nginx 反向代理将 `/api` 转发到后端端口。
